@@ -11,7 +11,7 @@ from resources.store import Store, Stores
 from db import db
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://oypgvdlzwrpazt:8696cb28f37459857e4e7105fddf18a840fb4ebe65ae460eae53a101ebcd8143@ec2-54-74-77-126.eu-west-1.compute.amazonaws.com:5432/d6v6vhhsp2f6ik'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = "LolHAHAHA"
 api = Api(app)
@@ -20,12 +20,16 @@ jwt = JWT(app, authenticate, identity)
 
 #create_table.create_table()
 
+def get_db_url():
+    uri = os.environ.get('DATABASE_URL')
+    uri_cut = uri[8:]
+    return "postgresql{}".format(uri_cut)    
 
 @app.before_first_request
 def create_table():
     db.create_all()
 
-                
+           
     
     
     
